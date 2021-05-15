@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.stock">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".Ipaddress"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".facultyedit"></activity>
+        <activity android:name=".facultydetails" />
+        <activity android:name=".viewrequest" />
+        <activity android:name=".requestinsert" />
+        <activity android:name=".sysreqview" />
+        <activity android:name=".serviceview" />
+        <activity android:name=".labsysadd" />
+        <activity android:name=".lab" />
+        <activity android:name=".labsysedit" />
+        <activity android:name=".labview" />
+        <activity android:name=".facultysysadd" />
+        <activity android:name=".facultysysedit" />
+        <activity android:name=".facultyview" />
+        <activity android:name=".serviceinsert" />
+        <activity android:name=".service" />
+        <activity android:name=".stockadd" />
+        <activity android:name=".stockview" />
+        <activity android:name=".stockentry" />
+        <activity android:name=".admin" />
+        <activity android:name=".stafflogin" />
+        <activity android:name=".signup" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
