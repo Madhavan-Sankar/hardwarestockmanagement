@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient2"
     android:orientation="vertical"
+    android:gravity="center"
     tools:context=".labview">
 
 
@@ -26,6 +27,12 @@
         android:layout_height="wrap_content"
         android:visibility="gone" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:weightSum="1">
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,9 +47,64 @@
         android:id="@+id/search"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
+        android:layout_weight="0.8"
         android:textColorHighlight="@color/white"/>
 
+    <ImageView
+        android:id="@+id/filter"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/ic_baseline_filter_list_24"
+        android:layout_weight="0.2"
+        android:scaleType="centerCrop"/>
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/filter1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:textSize="15dp"
+            android:textColor="#FFF"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Department : "/>
+        <Spinner
+            android:textSize="15dp"
+            android:textColor="#FFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/deptspinner"/>
 
+        <TextView
+            android:textSize="15dp"
+            android:textColor="#FFF"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lab : "/>
+        <Spinner
+            android:textSize="15dp"
+            android:textColor="#FFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/labspinner"/>
+    </LinearLayout>
+
+    <Button
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apply"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/apply"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="3dp"

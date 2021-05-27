@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".facultyedit"></activity>
+        <activity android:name=".labservice" />
+        <activity android:name=".facultyedit" />
         <activity android:name=".facultydetails" />
         <activity android:name=".viewrequest" />
         <activity android:name=".requestinsert" />

@@ -2,26 +2,33 @@ package com.example.stock;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,16 +43,24 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
-public class sysreqview extends AppCompatActivity {
+public class sysreqview extends AppCompatActivity implements AdapterView.OnItemSelectedListener  {
 
     ProgressBar progressBar;
     ListView mListView;
     ArrayList<requestclass> products = new ArrayList<>();
+    ArrayList<requestclass> filterbutton = new ArrayList<>();
     EditText search;
     MyAdapter myAdapter;
+    ImageView filter;
+    LinearLayout filter1;
+    Button apply;
+    Spinner dpspinner;
+    int is_clicked=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +76,10 @@ public class sysreqview extends AppCompatActivity {
         progressBar=findViewById(R.id.progress);
         progressBar.setVisibility(View.VISIBLE);
         mListView=findViewById(R.id.listview);
+        apply=findViewById(R.id.apply);
+        filter=findViewById(R.id.filter);
+        filter1=findViewById(R.id.filter1);
+        dpspinner=findViewById(R.id.dpspinner);
         search=findViewById(R.id.search);
         search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -77,16 +96,78 @@ public class sysreqview extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 String searchArray = s.toString();
                 ArrayList<requestclass> filteredname = new ArrayList<>();
-                for(requestclass i : products){
-                    if (i.getId().toLowerCase().contains(searchArray.toLowerCase()) || i.getName().toLowerCase().contains(searchArray.toLowerCase())) {
-                        if (!filteredname.contains(i)) {
-                            filteredname.add(i);
+                if(is_clicked==0) {
+                    for (requestclass i : products) {
+                        if (i.getId().toLowerCase().contains(searchArray.toLowerCase()) || i.getName().toLowerCase().contains(searchArray.toLowerCase())) {
+                            if (!filteredname.contains(i)) {
+                                filteredname.add(i);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    for (requestclass i : filterbutton) {
+                        if (i.getId().toLowerCase().contains(searchArray.toLowerCase()) || i.getName().toLowerCase().contains(searchArray.toLowerCase())) {
+                            if (!filteredname.contains(i)) {
+                                filteredname.add(i);
+                            }
                         }
                     }
                 }
                 myAdapter = new MyAdapter(getApplicationContext(),android.R.layout.simple_list_item_1,filteredname,ipaddress){
                 };
                 mListView.setAdapter(myAdapter);
+            }
+        });
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(filter1.getVisibility()==View.GONE)
+                {
+                    filter1.setVisibility(View.VISIBLE);
+                    apply.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    filter1.setVisibility(View.GONE);
+                    apply.setVisibility(View.GONE);
+                }
+            }
+        });
+        List<String> status = Arrays.asList("ALL","Done","Pending","Rejected");
+        @SuppressLint("ResourceType")
+        ArrayAdapter adapter = new ArrayAdapter(sysreqview.this, R.layout.my_selected_item, status);
+        adapter.setDropDownViewResource(R.layout.my_dropdown_item);
+        dpspinner.setAdapter(adapter);
+        dpspinner.setOnItemSelectedListener(sysreqview.this);
+        apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String s = dpspinner.getSelectedItem().toString();
+                search.setText("");
+                filterbutton.clear();
+                is_clicked=1;
+                if(!s.equalsIgnoreCase("ALL")) {
+                    for (requestclass i : products) {
+                        if(i.getStatus().equalsIgnoreCase(s))
+                        {
+                            filterbutton.add(i);
+                        }
+                    }
+                    myAdapter = new MyAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, filterbutton,ipaddress) {
+                    };
+                    mListView.setAdapter(myAdapter);
+                }
+                else
+                {
+                    is_clicked=0;
+                    myAdapter = new MyAdapter(getApplicationContext(),android.R.layout.simple_list_item_1,products,ipaddress);
+                    mListView.setAdapter(myAdapter);
+                }
+                filter1.setVisibility(View.GONE);
+                apply.setVisibility(View.GONE);
+                Toast.makeText(sysreqview.this, "Filter Applied Successfully!!", Toast.LENGTH_SHORT).show();
             }
         });
         populateListView();
@@ -111,16 +192,10 @@ public class sysreqview extends AppCompatActivity {
                                 String id = object.getString("id");
                                 String name = object.getString("name");
                                 String remark=object.getString("remark");
+                                String reason=object.getString("reason");
                                 String status=object.getString("status");
-                                String dateandtime = object.getString("dateandtime");
-                                requestclass product = new requestclass(id,name,remark,status,dateandtime);
-                                if(status.toLowerCase().equals("pending"))
-                                {
-                                    products.add(product);
-                                }
-                                else {
-
-                                }
+                                requestclass product = new requestclass(id,name,remark,reason,status);
+                                products.add(product);
                             }
 
                         }catch (Exception e){
@@ -140,6 +215,16 @@ public class sysreqview extends AppCompatActivity {
         });
 
         Volley.newRequestQueue(sysreqview.this).add(stringRequest);
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
 
@@ -163,16 +248,16 @@ public class sysreqview extends AppCompatActivity {
             TextView id = row.findViewById(R.id.id);
             TextView name = row.findViewById(R.id.name);
             TextView remarks = row.findViewById(R.id.remarks);
+            TextView reason = row.findViewById(R.id.reason);
             TextView status = row.findViewById(R.id.status);
-            TextView dateandtime = row.findViewById(R.id.dateandtime);
             Button done = row.findViewById(R.id.done);
             Button cancel = row.findViewById(R.id.cancel);
             final requestclass product1= rlast.get(position);
             id.setText(product1.getId());
             name.setText(product1.getName());
             remarks.setText(product1.getRemarks());
+            reason.setText(product1.getReason());
             status.setText(product1.getStatus());
-            dateandtime.setText(product1.getDateandtime());
             done.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -183,13 +268,11 @@ public class sysreqview extends AppCompatActivity {
                         public void run() {
                             //Starting Write and Read data with URL
                             //Creating array for parameters
-                            String[] field = new String[2];
+                            String[] field = new String[1];
                             field[0] = "id";
-                            field[1] = "dateandtime";
                             //Creating array for data
-                            String[] data = new String[2];
+                            String[] data = new String[1];
                             data[0] = product1.getId();
-                            data[1] = product1.getDateandtime();
                             PutData putData = new PutData(ipaddress+"/requestupdate.php", "POST", field, data);
                             if (putData.startPut()) {
                                 if (putData.onComplete()) {
@@ -216,40 +299,57 @@ public class sysreqview extends AppCompatActivity {
             cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    Handler handler = new Handler(Looper.getMainLooper());
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            //Starting Write and Read data with URL
-                            //Creating array for parameters
-                            String[] field = new String[2];
-                            field[0] = "id";
-                            field[1] = "dateandtime";
-                            //Creating array for data
-                            String[] data = new String[2];
-                            data[0] = product1.getId();
-                            data[1] = product1.getDateandtime();
-                            PutData putData = new PutData(ipaddress+"/requestcancel.php", "POST", field, data);
-                            if (putData.startPut()) {
-                                if (putData.onComplete()) {
-                                    progressBar.setVisibility(View.GONE);
-                                    String result = putData.getResult();
-                                    if(result.equals("Request Update Success")) {
-                                        Toast.makeText(context, "" + result, LENGTH_SHORT).show();
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString("entryid", "admin");
-                                        bundle.putString("name", "admin");//admin name
-                                        Intent ii = new Intent(sysreqview.this, admin.class);
-                                        ii.putExtras(bundle);
-                                        startActivity(ii);
-                                    }
-                                    else
-                                        Toast.makeText(context, "" + result, LENGTH_SHORT).show();
+                    AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(sysreqview.this);
+                    alertDialog2.setTitle("Enter reason...");
+                    final EditText reas = new EditText(sysreqview.this);
+                    reas.setInputType(InputType.TYPE_CLASS_TEXT);
+                    alertDialog2.setView(reas);
+                    alertDialog2.setPositiveButton("YES",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    progressBar.setVisibility(View.VISIBLE);
+                                    Handler handler = new Handler(Looper.getMainLooper());
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            //Starting Write and Read data with URL
+                                            //Creating array for parameters
+                                            String[] field = new String[2];
+                                            field[0] = "id";
+                                            field[1] = "reason";
+                                            //Creating array for data
+                                            String[] data = new String[2];
+                                            data[0] = product1.getId();
+                                            data[1] = reas.getText().toString();
+                                            PutData putData = new PutData(ipaddress+"/requestcancel.php", "POST", field, data);
+                                            if (putData.startPut()) {
+                                                if (putData.onComplete()) {
+                                                    progressBar.setVisibility(View.GONE);
+                                                    String result = putData.getResult();
+                                                    if(result.equals("Request Update Success")) {
+                                                        Toast.makeText(context, "" + result, LENGTH_SHORT).show();
+                                                        Bundle bundle = new Bundle();
+                                                        bundle.putString("entryid", "admin");
+                                                        bundle.putString("name", "admin");//admin name
+                                                        Intent ii = new Intent(sysreqview.this, admin.class);
+                                                        ii.putExtras(bundle);
+                                                        startActivity(ii);
+                                                    }
+                                                    else
+                                                        Toast.makeText(context, "" + result, LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        }
+                                    });
                                 }
-                            }
-                        }
-                    });
+                            });
+                    alertDialog2.setNegativeButton("NO",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(getApplicationContext(), "You clicked on NO", Toast.LENGTH_SHORT).show();
+                                    dialog.cancel();
+                                }});
+                    alertDialog2.show();
                 }
             });
             return row;

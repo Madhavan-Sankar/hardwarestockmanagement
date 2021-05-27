@@ -57,6 +57,7 @@ z
         android:textColorHighlight="@color/white"/>
 
     <TextView
+        android:alpha="0"
         android:id="@+id/forgot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

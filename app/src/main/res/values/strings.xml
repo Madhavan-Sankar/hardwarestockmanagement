@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">stock</string>
 
-
+    <string-array name="all_lab">
+        <item>ALL</item>
+    </string-array>
 </resources>

@@ -226,15 +226,17 @@ public class facultysysadd extends AppCompatActivity {
                                 String name = object.getString("name");
                                 int quantity = object.getInt("quantity");
                                 product product = new product(type,name,quantity);
-                                products.add(product);
-                                if(product.getType().equalsIgnoreCase("monitor"))
-                                    mon.add(name);
-                                else if(product.getType().equalsIgnoreCase("keyboard"))
-                                    key.add(name);
-                                else if(product.getType().equalsIgnoreCase("mouse"))
-                                    mo.add(name);
-                                else if(product.getType().equalsIgnoreCase("cpu"))
-                                    cp.add(name);
+                                if(quantity!=0) {
+                                    products.add(product);
+                                    if (product.getType().equalsIgnoreCase("monitor"))
+                                        mon.add(name);
+                                    else if (product.getType().equalsIgnoreCase("keyboard"))
+                                        key.add(name);
+                                    else if (product.getType().equalsIgnoreCase("mouse"))
+                                        mo.add(name);
+                                    else if (product.getType().equalsIgnoreCase("cpu"))
+                                        cp.add(name);
+                                }
                             }
 
                         }catch (Exception e){

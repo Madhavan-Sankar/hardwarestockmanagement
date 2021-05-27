@@ -31,6 +31,7 @@ import java.util.ArrayList;
 
 public class facultyedit extends AppCompatActivity {
 
+    String entryid,namee;
     String id,name,email,password,dept;//predefined and set
     TextView id1;
     EditText email1,password1,dept1;
@@ -56,6 +57,8 @@ public class facultyedit extends AppCompatActivity {
         email = bundle.getString("email");
         password = bundle.getString("password");
         dept = bundle.getString("dept");
+        entryid = bundle.getString("entryid");
+        namee = bundle.getString("name");
         id1=findViewById(R.id.id);
         name1=findViewById(R.id.name);
         email1=findViewById(R.id.email);
@@ -114,12 +117,23 @@ public class facultyedit extends AppCompatActivity {
                                         String result = putData.getResult();
                                         if (result.equals("Faculty Details Update Success")){
                                             Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
-                                            Bundle bundle = new Bundle();
-                                            bundle.putString("entryid", "admin");
-                                            bundle.putString("name", "admin");//admin name
-                                            Intent ii = new Intent(facultyedit.this, admin.class);
-                                            ii.putExtras(bundle);
-                                            startActivity(ii);
+                                            if(entryid.equalsIgnoreCase("admin")) {
+                                                Bundle bundle = new Bundle();
+                                                bundle.putString("entryid", entryid);
+                                                bundle.putString("name", namee);//admin name
+                                                Intent ii = new Intent(facultyedit.this, admin.class);
+                                                ii.putExtras(bundle);
+                                                startActivity(ii);
+                                            }
+                                            else
+                                            {
+                                                Bundle bundle = new Bundle();
+                                                bundle.putString("entryid", entryid);
+                                                bundle.putString("name", namee);//admin name
+                                                Intent iii = new Intent(facultyedit.this, stafflogin.class);
+                                                iii.putExtras(bundle);
+                                                startActivity(iii);
+                                            }
                                             //finish();
                                         }
                                         else{
@@ -136,5 +150,25 @@ public class facultyedit extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    public void onBackPressed() {
+        if(entryid.equalsIgnoreCase("admin"))
+        {
+            Bundle bundle = new Bundle();
+            bundle.putString("entryid", entryid);
+            bundle.putString("name", namee);//admin name
+            Intent ii = new Intent(facultyedit.this, admin.class);
+            ii.putExtras(bundle);
+            startActivity(ii);
+        }
+        else
+        {
+            Bundle bundle = new Bundle();
+            bundle.putString("entryid", entryid);
+            bundle.putString("name", namee);//admin name
+            Intent iii = new Intent(facultyedit.this, stafflogin.class);
+            iii.putExtras(bundle);
+            startActivity(iii);
+        }
+    }
 }

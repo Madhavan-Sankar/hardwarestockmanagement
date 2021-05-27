@@ -1,22 +1,15 @@
 package com.example.stock;
 
 public class serviceclass {
-    String id,type,name,remarks,status,dateandtime;
-    serviceclass(String id,String type,String name,String remarks,String status, String dateandtime)
-    {
-        this.id=id;
-        this.type=type;
-        this.name=name;
-        this.remarks=remarks;
-        this.status=status;
-        this.dateandtime=dateandtime;
-    }
+    String id,type,name,remarks,reason,status,dateandtime;
 
-    public String getDateandtime() {
-        return dateandtime;
-    }
-
-    public void setDateandtime(String dateandtime) {
+    public serviceclass(String id, String type, String name, String remarks, String reason, String status, String dateandtime) {
+        this.id = id;
+        this.type = type;
+        this.name = name;
+        this.remarks = remarks;
+        this.reason = reason;
+        this.status = status;
         this.dateandtime = dateandtime;
     }
 
@@ -52,11 +45,27 @@ public class serviceclass {
         this.remarks = remarks;
     }
 
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getDateandtime() {
+        return dateandtime;
+    }
+
+    public void setDateandtime(String dateandtime) {
+        this.dateandtime = dateandtime;
     }
 }

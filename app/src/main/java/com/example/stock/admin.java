@@ -209,7 +209,11 @@ public class admin extends AppCompatActivity {
         facultydetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("entryid", entryid);
+                bundle1.putString("name",name);
                 Intent intent1 = new Intent(admin.this,facultydetails.class);
+                intent1.putExtras(bundle1);
                 startActivity(intent1);
             }
         });
@@ -242,25 +246,5 @@ public class admin extends AppCompatActivity {
         startActivity(i);
     }
 
-    class MyAdapter extends ArrayAdapter<String> {
-
-        Context context;
-        ArrayList<String> rlast;
-        public MyAdapter(Context c, int resource,ArrayList<String> last) {
-            super(c, resource,last);
-            this.context = c;
-            rlast=last;
-        }
-        @SuppressLint("WrongViewCast")
-        @NonNull
-        @Override
-        public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            LayoutInflater layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View row = layoutInflater.inflate(R.layout.admincardview, parent, false);
-            TextView name = row.findViewById(R.id.name);
-            name.setText(rlast.get(position));
-            return row;
-        }
-    }
 
 }

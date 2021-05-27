@@ -1,11 +1,8 @@
 package com.example.stock;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,29 +14,18 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.vishnusivadas.advanced_httpurlconnection.PutData;
 
-import java.sql.Connection;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.UUID;
-
-public class signup extends AppCompatActivity {
-
-    Button submit;
-    EditText username1,name1,password1,department1,id1;
+public class labservice extends AppCompatActivity {
 
     ProgressBar progressBar;
+    EditText id1,type1,name1,remarks1;
+    Button submit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
+        setContentView(R.layout.activity_labservice);
         Window window;
         if(Build.VERSION.SDK_INT>=21)
         {
@@ -47,27 +33,22 @@ public class signup extends AppCompatActivity {
             window.setStatusBarColor(this.getResources().getColor(R.color.statusbarcolor));
         }
         final String ipaddress = ((Ipaddress) this.getApplication()).getIp();
+        progressBar=findViewById(R.id.progress);
         id1=findViewById(R.id.id);
+        type1=findViewById(R.id.type);
         name1=findViewById(R.id.name);
-        username1=findViewById(R.id.username);
-        password1=findViewById(R.id.password);
-        department1=findViewById(R.id.department);
+        remarks1=findViewById(R.id.remarks);
         submit=findViewById(R.id.submit);
-
-        progressBar = findViewById(R.id.progress);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                final String name,password,email,department,id;
-                id=id1.getText().toString();
-                name=name1.getText().toString();
-                email=username1.getText().toString();
-                password=password1.getText().toString();
-                department=department1.getText().toString();
-
-
-                if(!name.equals("") && !password.equals("") && !email.equals("") && !department.equals("") && !id.equals("")) {
+                final String id,type,name,remark;
+                id=id1.getText().toString().trim();
+                type=type1.getText().toString().trim();
+                name=name1.getText().toString().trim();
+                remark=remarks1.getText().toString().trim();
+                progressBar.setVisibility(View.VISIBLE);
+                if(!id.equals("") && !type.equals("") && !name.equals("") && !remark.equals("")) {
                     progressBar.setVisibility(View.VISIBLE);
                     Handler handler = new Handler(Looper.getMainLooper());
                     handler.post(new Runnable() {
@@ -77,23 +58,23 @@ public class signup extends AppCompatActivity {
                             //Creating array for parameters
                             String[] field = new String[5];
                             field[0] = "id";
-                            field[1] = "name";
-                            field[2] = "password";
-                            field[3] = "email";
-                            field[4] = "department";
+                            field[1] = "type";
+                            field[2] = "name";
+                            field[3] = "remark";
+                            field[4] = "status";
                             //Creating array for data
                             String[] data = new String[5];
                             data[0] = id;
-                            data[1] = name;
-                            data[2] = password;
-                            data[3] = email;
-                            data[4] = department;
-                            PutData putData = new PutData(ipaddress+"/signup.php", "POST", field, data);
+                            data[1] = type;
+                            data[2] = name;
+                            data[3] = remark;
+                            data[4] = "Pending";
+                            PutData putData = new PutData(ipaddress+"/labserviceinsert.php", "POST", field, data);
                             if (putData.startPut()) {
                                 if (putData.onComplete()) {
                                     progressBar.setVisibility(View.GONE);
                                     String result = putData.getResult();
-                                    if (result.equals("Sign Up Success")){
+                                    if (result.equals("Service Insertion Success")){
                                         Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
                                         finish();
                                     }
@@ -112,9 +93,14 @@ public class signup extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(signup.this,MainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("entryid","lab");
+        bundle.putString("name","lab");
+        Intent i = new Intent(labservice.this,lab.class);
+        i.putExtras(bundle);
         startActivity(i);
     }
 }

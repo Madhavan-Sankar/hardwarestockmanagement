@@ -1,22 +1,14 @@
 package com.example.stock;
 
 public class requestclass {
-    String id,name,remarks,status,dateandtime;
-    requestclass(String id, String name, String remarks, String status, String dateandtime)
-    {
-        this.id=id;
-        this.name=name;
-        this.remarks=remarks;
-        this.status=status;
-        this.dateandtime=dateandtime;
-    }
+    String id,name,remarks,reason,status;
 
-    public String getDateandtime() {
-        return dateandtime;
-    }
-
-    public void setDateandtime(String dateandtime) {
-        this.dateandtime = dateandtime;
+    public requestclass(String id, String name, String remarks, String reason, String status) {
+        this.id = id;
+        this.name = name;
+        this.remarks = remarks;
+        this.reason = reason;
+        this.status = status;
     }
 
     public String getId() {
@@ -41,6 +33,14 @@ public class requestclass {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public String getStatus() {

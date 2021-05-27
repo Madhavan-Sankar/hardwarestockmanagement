@@ -42,8 +42,8 @@ public class stockentry extends AppCompatActivity {
             public void onClick(View view) {
                 final String type,name;
                 final int quantity;
-                type=type1.getText().toString().trim();
-                name=name1.getText().toString().trim();
+                type=type1.getText().toString().toLowerCase().trim();
+                name=name1.getText().toString().toLowerCase().trim();
                 quantity=Integer.parseInt(quantity1.getText().toString().trim());
                 if(!name.equals("") && !type.equals("") && quantity!=0) {
                     progressBar.setVisibility(View.VISIBLE);

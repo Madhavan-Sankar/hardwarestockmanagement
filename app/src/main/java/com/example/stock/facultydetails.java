@@ -47,6 +47,7 @@ public class facultydetails extends AppCompatActivity {
     ArrayList<facultydetailsclass> products = new ArrayList<>();
     EditText search;
     MyAdapter myAdapter;
+    String entryid,namee;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,9 @@ public class facultydetails extends AppCompatActivity {
             window.setStatusBarColor(this.getResources().getColor(R.color.statusbarcolor));
         }
         final String ipaddress = ((Ipaddress) this.getApplication()).getIp();
+        Bundle bundle = getIntent().getExtras();
+        entryid = bundle.getString("entryid");
+        namee = bundle.getString("name");
         progressBar=findViewById(R.id.progress);
         progressBar.setVisibility(View.VISIBLE);
         mListView=findViewById(R.id.listview);
@@ -175,6 +179,8 @@ public class facultydetails extends AppCompatActivity {
                     bundle.putString("email", product1.getEmail());
                     bundle.putString("password", product1.getPassword());
                     bundle.putString("dept", product1.getDept());
+                    bundle.putString("entryid", entryid);
+                    bundle.putString("name", namee);
                     Intent ii = new Intent(facultydetails.this, facultyedit.class);
                     ii.putExtras(bundle);
                     startActivity(ii);

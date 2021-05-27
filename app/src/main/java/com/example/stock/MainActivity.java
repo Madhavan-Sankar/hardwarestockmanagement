@@ -35,6 +35,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -61,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
     stock s;
     TextView forgot;
     ProgressBar progressBar;
-    /*FirebaseDatabase database;
-    DatabaseReference myRef,checkmail;*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,17 +73,12 @@ public class MainActivity extends AppCompatActivity {
             window=this.getWindow();
             window.setStatusBarColor(this.getResources().getColor(R.color.statusbarcolor1));
         }
-        /*database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("staff");
-        checkmail = database.getReference("staff");*/
         username=findViewById(R.id.username);
         password1=findViewById(R.id.password);
         submit=findViewById(R.id.submit);
         signup=findViewById(R.id.signup);
         forgot=findViewById(R.id.forgot);
         progressBar = findViewById(R.id.progress);
-        /*s=new stock(1,"a",200); //Insert Data
-        myRef.child(UUID.randomUUID().toString()).setValue(s);*/
 
 //        http://192.168.0.112/app
         //https://hardwarestockmanagement.000webhostapp.com/   for madhavansankar007@gmail.com
@@ -92,6 +87,13 @@ public class MainActivity extends AppCompatActivity {
         final String ipaddress = ((Ipaddress) this.getApplication()).getIp();
 
 
+        //Initialise Departments and their labs
+        ((Ipaddress) this.getApplication()).setDepartment(Arrays.asList("ALL","CSE","ECE","EEE","CIVIL","MECH"));
+        ((Ipaddress) this.getApplication()).setCse(Arrays.asList("ALL","cisco","sap","oracle"));
+        ((Ipaddress) this.getApplication()).setEce(Arrays.asList("ALL","Ece","Ece","Ece"));
+        ((Ipaddress) this.getApplication()).setEee(Arrays.asList("ALL","Eee","Eee","Eee"));
+        ((Ipaddress) this.getApplication()).setCivil(Arrays.asList("ALL","Civil","Civil","Civil"));
+        ((Ipaddress) this.getApplication()).setMech(Arrays.asList("ALL","Mech","Mech","Mech"));
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,41 +165,12 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "All fields are Required", Toast.LENGTH_SHORT).show();
                 }
 
-
-                /*checkmail.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                            staff ss = ds.getValue(staff.class);
-                            if(ss.getEmail().equals("mm") && ss.getPassword().equals("mm"))
-                            {
-                                //Login Page for Admin
-                            }
-                            else if (ss.getEmail().equals(un) && ss.getPassword().equals(pw)) {//Login Page for Staff
-                                Bundle bundle = new Bundle();
-                                bundle.putString("entryid", un.split("@")[0]);
-                                bundle.putString("name",ss.getName());
-                                Intent i = new Intent(MainActivity.this, stafflogin.class);
-                                i.putExtras(bundle);
-                                startActivity(i);
-                                Toast.makeText(getApplicationContext(), "Welcome " + ss.getName(), LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });*/
             }
         });
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent ii = new Intent(MainActivity.this,signup.class);
-                /*Bundle bundle = new Bundle();
-                bundle.putString("entryid", );*/
-                //i.putExtras(bundle);
                 startActivity(ii);
             }
         });
@@ -223,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                                             String id1 = object.getString("faculty_id");
                                             String email = object.getString("email");
                                             if(id1.equalsIgnoreCase(id))
-                                            {/*     Mail Sending module not supported for higher version
+                                            {/*     //Mail Sending module not supported for higher version
                                                 final String username = "stockfirebase3@gmail.com";
                                                 final String password = "StockFirebase3";
                                                 Properties props = new Properties();

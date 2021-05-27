@@ -34,42 +34,43 @@
                 android:textSize="18dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TYPE"
+                android:text="LAB"
+                android:textColor="@color/yellow_orange" />
+
+
+            <TextView
+                android:textSize="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DEPARTMENT"
                 android:textColor="@color/yellow_orange" />
 
             <TextView
                 android:textSize="18dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="NAME"
+                android:text="MONITOR"
                 android:textColor="@color/yellow_orange" />
 
             <TextView
                 android:textSize="18dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="REMARKS"
+                android:text="KEYBOARD"
                 android:textColor="@color/yellow_orange" />
 
             <TextView
                 android:textSize="18dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="REASON"
+                android:text="MOUSE"
                 android:textColor="@color/yellow_orange" />
 
             <TextView
                 android:textSize="18dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="STATUS"
-                android:textColor="@color/yellow_orange" />
-
-            <TextView
-                android:textSize="18dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="DATE AND TIME"
+                android:text="CPU"
                 android:textColor="@color/yellow_orange" />
 
         </LinearLayout>
@@ -85,16 +86,7 @@
                 android:id="@+id/id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="id"
-                android:textColor="@color/colorAccent"
-                android:textStyle="bold" />
-
-            <TextView
-                android:textSize="18dp"
-                android:id="@+id/type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="type"
+                android:text="NULL"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold" />
 
@@ -103,43 +95,52 @@
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="name"
+                android:text="NULL"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold" />
 
             <TextView
                 android:textSize="18dp"
-                android:id="@+id/remarks"
+                android:id="@+id/dept"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="remarks"
+                android:text="NULL"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold" />
 
             <TextView
-                android:textSize="18dp"
-                android:id="@+id/reason"
+                android:id="@+id/monitor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="reason"
+                android:text="NULL"
+                android:textColor="@color/colorAccent"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:textSize="18dp"
+                android:id="@+id/keyboard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="NULL"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold" />
 
             <TextView
                 android:textSize="18dp"
-                android:id="@+id/status"
+                android:id="@+id/mouse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="status"
+                android:text="NULL"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold" />
 
             <TextView
                 android:textSize="18dp"
-                android:id="@+id/dateandtime"
+                android:id="@+id/cpu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="date and time"
+                android:text="NULL"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -152,19 +153,20 @@
         android:layout_gravity="center"
         android:orientation="horizontal">
 
+
         <Button
-            android:id="@+id/done"
+            android:id="@+id/edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="done"
+            android:text="edit"
             android:textSize="18dp" />
 
         <Button
-            android:id="@+id/cancel"
+            android:id="@+id/delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:text="REJECT"
+            android:layout_marginLeft="70dp"
+            android:text="delete"
             android:textSize="18dp" />
 
     </LinearLayout>

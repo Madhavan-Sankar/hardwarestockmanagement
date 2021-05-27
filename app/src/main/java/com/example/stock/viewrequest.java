@@ -114,9 +114,9 @@ public class viewrequest extends AppCompatActivity {
                                 String id = object.getString("id");
                                 String name = object.getString("name");
                                 String remark=object.getString("remark");
+                                String reason=object.getString("reason");
                                 String status=object.getString("status");
-                                String dateandtime = object.getString("dateandtime");
-                                requestclass product = new requestclass(id,name,remark,status,dateandtime);
+                                requestclass product = new requestclass(id,name,remark,reason,status);
                                 if(id.equalsIgnoreCase(entryid))
                                 {
                                     products.add(product);
@@ -166,16 +166,16 @@ public class viewrequest extends AppCompatActivity {
             TextView id = row.findViewById(R.id.id);
             TextView name1 = row.findViewById(R.id.name);
             TextView remarks = row.findViewById(R.id.remarks);
+            TextView reason = row.findViewById(R.id.reason);
             TextView status = row.findViewById(R.id.status);
-            TextView dateandtime = row.findViewById(R.id.dateandtime);
             Button done = row.findViewById(R.id.done);
             Button cancel = row.findViewById(R.id.cancel);
             final requestclass product1= rlast.get(position);
             id.setText(product1.getId());
             name1.setText(product1.getName());
             remarks.setText(product1.getRemarks());
+            reason.setText(product1.getReason());
             status.setText(product1.getStatus());
-            dateandtime.setText(product1.getDateandtime());
             done.setVisibility(View.INVISIBLE);
             cancel.setText("DELETE");
             cancel.setOnClickListener(new View.OnClickListener() {
@@ -188,19 +188,17 @@ public class viewrequest extends AppCompatActivity {
                         public void run() {
                             //Starting Write and Read data with URL
                             //Creating array for parameters
-                            String[] field = new String[2];
+                            String[] field = new String[1];
                             field[0] = "id";
-                            field[1] = "dateandtime";
                             //Creating array for data
-                            String[] data = new String[2];
+                            String[] data = new String[1];
                             data[0] = product1.getId();
-                            data[1] = product1.getDateandtime();
-                            PutData putData = new PutData(ipaddress+"/requestcancel.php", "POST", field, data);
+                            PutData putData = new PutData(ipaddress+"/requestdelete.php", "POST", field, data);
                             if (putData.startPut()) {
                                 if (putData.onComplete()) {
                                     progressBar.setVisibility(View.GONE);
                                     String result = putData.getResult();
-                                    if(result.equals("Request Update Success")) {
+                                    if(result.equals("Request Deletion Successfull!")) {
                                         Toast.makeText(context, "" + result, LENGTH_SHORT).show();
                                         Bundle bundle = new Bundle();
                                         bundle.putString("entryid", entryid);

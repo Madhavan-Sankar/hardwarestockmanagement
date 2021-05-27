@@ -54,6 +54,21 @@
         android:textColorHint="@color/white" />
 
     <TextView
+        android:id="@+id/dept"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/shapeemail"
+        android:drawableLeft="@drawable/ic_baseline_person_24"
+        android:drawablePadding="10dp"
+        android:hint="Department"
+        android:padding="15dp"
+        android:textColor="@color/white"
+        android:textColorHighlight="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="18dp" />
+
+    <TextView
         android:id="@+id/monitor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -112,6 +127,15 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textColorHighlight="@color/white"/>
+
+
+    <ListView
+        android:visibility="gone"
+        android:paddingTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/listviewdept"
+        android:layout_weight="100"/>
 
     <ListView
         android:visibility="gone"

@@ -1,11 +1,12 @@
 package com.example.stock;
 
 public class labclass {
-    String id,lab, monitor,keyboard,mouse,cpu;
+    String id,lab,dept,monitor,keyboard,mouse,cpu;
 
-    public labclass(String id, String lab, String monitor, String keyboard, String mouse, String cpu) {
+    public labclass(String id, String lab, String dept, String monitor, String keyboard, String mouse, String cpu) {
         this.id = id;
         this.lab = lab;
+        this.dept = dept;
         this.monitor = monitor;
         this.keyboard = keyboard;
         this.mouse = mouse;
@@ -26,6 +27,14 @@ public class labclass {
 
     public void setLab(String lab) {
         this.lab = lab;
+    }
+
+    public String getDept() {
+        return dept;
+    }
+
+    public void setDept(String dept) {
+        this.dept = dept;
     }
 
     public String getMonitor() {

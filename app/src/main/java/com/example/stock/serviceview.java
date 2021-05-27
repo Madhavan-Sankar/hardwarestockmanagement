@@ -115,15 +115,21 @@ public class serviceview extends AppCompatActivity {
                                 String type = object.getString("type");
                                 String name = object.getString("name");
                                 String remark=object.getString("remark");
+                                String reason=object.getString("reason");
                                 String status=object.getString("status");
                                 String dateandtime=object.getString("dateandtime");
-                                serviceclass product = new serviceclass(id,type,name,remark,status,dateandtime);
-                                if(id.equalsIgnoreCase(entryid))
+                                serviceclass product = new serviceclass(id,type,name,remark,reason,status,dateandtime);
+                                if(entryid.equalsIgnoreCase("lab"))
                                 {
-                                    products.add(product);
+                                    if(!id.contains("PSG"))
+                                    {
+                                        products.add(product);
+                                    }
                                 }
                                 else {
-
+                                    if (id.equalsIgnoreCase(entryid)) {
+                                        products.add(product);
+                                    }
                                 }
                             }
 
@@ -170,6 +176,7 @@ public class serviceview extends AppCompatActivity {
             TextView type = row.findViewById(R.id.type);
             TextView name1 = row.findViewById(R.id.name);
             TextView remarks = row.findViewById(R.id.remarks);
+            TextView reason = row.findViewById(R.id.reason);
             TextView status = row.findViewById(R.id.status);
             TextView dateandtime = row.findViewById(R.id.dateandtime);
             Button done = row.findViewById(R.id.done);
@@ -180,6 +187,7 @@ public class serviceview extends AppCompatActivity {
             type.setText(product1.getType());
             name1.setText(product1.getName());
             remarks.setText(product1.getRemarks());
+            reason.setText(product1.getReason());
             status.setText(product1.getStatus());
             dateandtime.setText(product1.getDateandtime());
             done.setVisibility(View.INVISIBLE);
@@ -201,19 +209,27 @@ public class serviceview extends AppCompatActivity {
                             String[] data = new String[2];
                             data[0] = product1.getId();
                             data[1] = product1.getDateandtime();
-                            PutData putData = new PutData(ipaddress+"/servicecancel.php", "POST", field, data);
+                            PutData putData = new PutData(ipaddress+"/servicedelete.php", "POST", field, data);
                             if (putData.startPut()) {
                                 if (putData.onComplete()) {
                                     progressBar.setVisibility(View.GONE);
                                     String result = putData.getResult();
-                                    if(result.equals("Service Update Success")) {
+                                    if(result.equals("Service Request Deleted Successfully!!")) {
                                         Toast.makeText(context, "" + result, LENGTH_SHORT).show();
                                         Bundle bundle = new Bundle();
                                         bundle.putString("entryid", entryid);
                                         bundle.putString("name", name);
-                                        Intent ii = new Intent(serviceview.this, stafflogin.class);
-                                        ii.putExtras(bundle);
-                                        startActivity(ii);
+                                        if(entryid.equalsIgnoreCase("lab"))
+                                        {
+                                            Intent iii = new Intent(serviceview.this, lab.class);
+                                            iii.putExtras(bundle);
+                                            startActivity(iii);
+                                        }
+                                        else {
+                                            Intent ii = new Intent(serviceview.this, stafflogin.class);
+                                            ii.putExtras(bundle);
+                                            startActivity(ii);
+                                        }
                                     }
                                     else
                                         Toast.makeText(context, "" + result, LENGTH_SHORT).show();
@@ -231,8 +247,16 @@ public class serviceview extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putString("entryid", entryid);
         bundle.putString("name", name);
-        Intent ii = new Intent(serviceview.this, stafflogin.class);
-        ii.putExtras(bundle);
-        startActivity(ii);
+        if(entryid.equalsIgnoreCase("lab"))
+        {
+            Intent iii = new Intent(serviceview.this, lab.class);
+            iii.putExtras(bundle);
+            startActivity(iii);
+        }
+        else{
+            Intent ii = new Intent(serviceview.this, stafflogin.class);
+            ii.putExtras(bundle);
+            startActivity(ii);
+        }
     }
 }
